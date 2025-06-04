@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import CircleMenu from '@/components/CircleMenu.vue'
+import CircleMain from '@/components/CircleMain.vue'
 import CircleLeft from '@/components/CircleLeft.vue'
+import CircleRight from '@/components/CircleRight.vue'
 </script>
 
 <template>
@@ -9,8 +11,8 @@ import CircleLeft from '@/components/CircleLeft.vue'
       <el-header><CircleMenu /></el-header>
       <el-container>
         <el-aside width="200px"><CircleLeft /></el-aside>
-        <el-main>Main</el-main>
-        <el-aside width="200px">Aside</el-aside>
+        <el-main><CircleMain /></el-main>
+        <el-aside width="200px"><CircleRight /></el-aside>
       </el-container>
     </el-container>
     <span>赣121234314</span>
@@ -26,14 +28,6 @@ import CircleLeft from '@/components/CircleLeft.vue'
   .el-header {
     margin: 10px 0;
     padding: 0;
-  }
-
-  .el-aside {
-    background-color: #fd1;
-  }
-
-  .el-main {
-    background-color: #2df;
   }
 }
 </style>
