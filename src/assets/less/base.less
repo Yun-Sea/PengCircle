@@ -1,0 +1,41 @@
+// 定义一些可复用的变量
+@scrollbar-width: 8px; // 滚动条宽度
+@scrollbar-bg: rgba(0, 0, 0, 0.05); // 轨道背景色（透明度较低）
+@scrollbar-thumb-bg: #ccc; // 滑块颜色（灰色）
+@scrollbar-thumb-bg-hover: #aaa; // 滑块悬停颜色（深灰色）
+@scrollbar-radius: 4px; // 滚动条圆角
+
+* {
+  margin: 0;
+  padding: 0;
+  // 滚动条整体样式
+  &::-webkit-scrollbar {
+    width: @scrollbar-width;
+  }
+
+  // 滚动条轨道样式
+  &::-webkit-scrollbar-track {
+    background: @scrollbar-bg;
+    border-radius: @scrollbar-radius;
+  }
+
+  // 滚动条滑块样式
+  &::-webkit-scrollbar-thumb {
+    background: @scrollbar-thumb-bg;
+    border-radius: @scrollbar-radius;
+
+    // 滑块悬停时的样式
+    &:hover {
+      background: @scrollbar-thumb-bg-hover;
+    }
+  }
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
