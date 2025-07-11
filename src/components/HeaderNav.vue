@@ -3,7 +3,8 @@ import { onMounted,ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import RightSetting from '@/components/RightSetting.vue'
 import logo from '@/assets/images/logo.png'
-import axios from 'axios'
+import { userApi } from '@/api'
+import type {UserInfo} from '@/api'
 
 const router = useRouter()
 const activeIndex = ref('1')
@@ -36,19 +37,19 @@ watch(isRightMenuVisible, (newVal) => {
   }
 })
 
-// 获取用户信息
+const userInfo = ref<UserInfo | null>(null)
 
+// 获取用户信息
 onMounted(async () => {
-  axios
-    .get('http://localhost:8000/user/2')
-    .then((response) => {
-      console.log(response.data)
-      const user = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-})
+  try {
+    // 使用 await 获取实际数据
+    const data = await userApi.getUserInfo(6);
+    userInfo.value = data;
+    console.log(data);
+  } catch (error) {
+    console.error('获取用户信息失败', error);
+  }
+});
 </script>
 
 <template>
@@ -75,10 +76,11 @@ onMounted(async () => {
     <div class="user-center">
       <div class="user-info" @click="toggleRightMenu">
         <el-avatar :size="36" src="https://via.placeholder.com/36x36" />
-        <span class="username">{{}}</span>
+        <span class="username">{{userInfo?.username || '未登录'}}</span>
       </div>
     </div>
   </div>
+
   <!--右侧详细菜单栏-->
   <div class="right-menu" v-show="isRightMenuVisible">
     <RightSetting @close="toggleRightMenu" />
@@ -100,7 +102,7 @@ onMounted(async () => {
 
 // 导航栏样式
 .glass-navbar {
-  display: flex;
+  //display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
@@ -108,7 +110,6 @@ onMounted(async () => {
   background: @glass-bg-color;
   backdrop-filter: blur(@blur-value);
   -webkit-backdrop-filter: blur(@blur-value);
-  //border-bottom: 1px solid @glass-border-color;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 900;
@@ -118,6 +119,9 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 
     .logo {
       width: 40px;
@@ -162,6 +166,10 @@ onMounted(async () => {
   .user-center {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 
     .user-info {
       display: flex;
