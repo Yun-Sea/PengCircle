@@ -2,6 +2,12 @@
 import { ref } from 'vue'
 import { ChatDotRound } from '@element-plus/icons-vue'
 
+// 定义评论类型
+interface CommentItem {
+  user: string;
+  text: string;
+}
+
 const props = defineProps({
   avatar: {
     type: String,
@@ -28,7 +34,7 @@ const props = defineProps({
     default: 0,
   },
   initialComments: {
-    type: Array,
+    type: Array as () => CommentItem[],
     default: () => [],
   },
 })
@@ -36,7 +42,7 @@ const props = defineProps({
 const isLiked = ref(false)
 const showCommentInput = ref(false)
 const commentText = ref('')
-const comments = ref([...props.initialComments])
+const comments = ref<CommentItem[]>([...props.initialComments as CommentItem[]])
 
 const toggleLike = () => {
   isLiked.value = !isLiked.value

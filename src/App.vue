@@ -5,9 +5,13 @@ import HeaderNav from '@/components/HeaderNav.vue'
 </script>
 
 <template>
+
+  <!--导航栏固定-->
   <header>
     <HeaderNav />
   </header>
+
+  <!--主体内容-->
   <main>
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
@@ -17,7 +21,6 @@ import HeaderNav from '@/components/HeaderNav.vue'
   </main>
 
   <!--  <footer>-->
-  <!--    11  -->
   <!--  </footer>-->
 </template>
 

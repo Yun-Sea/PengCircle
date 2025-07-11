@@ -34,7 +34,7 @@ import CircleList from '@/components/CircleList.vue'
 .main-container {
 
   .Left-Display {
-    margin-left: 20px;
+    margin-left: 40px;
     //width: 20%;
 
     .card-container {

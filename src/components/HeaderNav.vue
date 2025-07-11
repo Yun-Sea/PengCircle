@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted,ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import RightSetting from '@/components/RightSetting.vue'
 import logo from '@/assets/images/logo.png'
+import axios from 'axios'
 
 const router = useRouter()
 const activeIndex = ref('1')
@@ -19,7 +20,6 @@ const handleSelect = (index: string) => {
   router.push(routeMap[index])
 }
 
-
 // 右侧详细菜单栏设置
 const isRightMenuVisible = ref<boolean>(false)
 
@@ -34,6 +34,20 @@ watch(isRightMenuVisible, (newVal) => {
   } else {
     document.body.style.overflow = '' // 恢复主页滚动
   }
+})
+
+// 获取用户信息
+
+onMounted(async () => {
+  axios
+    .get('http://localhost:8000/user/2')
+    .then((response) => {
+      console.log(response.data)
+      const user = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 })
 </script>
 
@@ -61,13 +75,17 @@ watch(isRightMenuVisible, (newVal) => {
     <div class="user-center">
       <div class="user-info" @click="toggleRightMenu">
         <el-avatar :size="36" src="https://via.placeholder.com/36x36" />
-        <span class="username">用户名</span>
+        <span class="username">{{}}</span>
       </div>
     </div>
   </div>
   <!--右侧详细菜单栏-->
   <div class="right-menu" v-show="isRightMenuVisible">
     <RightSetting @close="toggleRightMenu" />
+  </div>
+  <!-- 登录弹窗 -->
+  <div>
+    <!-- <UserLogin/> -->
   </div>
 </template>
 
