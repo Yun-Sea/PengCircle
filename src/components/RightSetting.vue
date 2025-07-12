@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Close } from '@element-plus/icons-vue'
 
 const activeItem = ref('Your Copilot')
 const isSidebarOpen = ref(true)
@@ -32,21 +33,17 @@ const handleClose = () => {
 
   <!-- 侧边栏 -->
   <div v-if="isSidebarOpen" class="sidebar-menu">
+
     <!-- 用户信息 -->
     <div class="user-section">
+      <!--头像-->
+      <el-avatar :size="48" src="https://via.placeholder.com/36x36" />
+
       <div class="username">Yun-Sea <br />用户lv1</div>
       <button class="close-btn" @click="handleClose">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <el-icon><Close /></el-icon>
       </button>
     </div>
-
-<!--    &lt;!&ndash; 状态设置 &ndash;&gt;-->
-<!--    <div class="menu-section">-->
-<!--      <button class="status-btn">Set status</button>-->
-<!--    </div>-->
 
     <!-- 个人资料菜单 -->
     <div class="menu-section">
@@ -80,7 +77,9 @@ const handleClose = () => {
       </ul>
     </div>
 
-
+    <div>
+      备案号
+    </div>
   </div>
 </template>
 

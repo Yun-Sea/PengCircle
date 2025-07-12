@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted,ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import RightSetting from '@/components/RightSetting.vue'
 import logo from '@/assets/images/logo.png'
-import { userApi } from '@/api'
 import type {UserInfo} from '@/api'
+import UserLogin from '@/components/UserLogin.vue'
 
 const router = useRouter()
 const activeIndex = ref('1')
@@ -39,17 +39,26 @@ watch(isRightMenuVisible, (newVal) => {
 
 const userInfo = ref<UserInfo | null>(null)
 
-// 获取用户信息
-onMounted(async () => {
+
+// 示例：某个组件或服务中使用
+import authApi from '@/api/system/auth';
+
+const handleLogin = async () => {
+  const credentials = {
+    username: 'admin',
+    password: '123456'
+  };
+
   try {
-    // 使用 await 获取实际数据
-    const data = await userApi.getUserInfo(6);
-    userInfo.value = data;
-    console.log(data);
+    const tokenData = await authApi.login(credentials);
+    console.log('登录成功，获取到 token:', tokenData.access_token);
+    // 这里可以进行后续处理，比如保存 token 到本地存储等
   } catch (error) {
-    console.error('获取用户信息失败', error);
+    console.error('登录失败:', error);
   }
-});
+};
+
+console.log(handleLogin())
 </script>
 
 <template>
@@ -87,7 +96,7 @@ onMounted(async () => {
   </div>
   <!-- 登录弹窗 -->
   <div>
-    <!-- <UserLogin/> -->
+<!--     <UserLogin/>-->
   </div>
 </template>
 

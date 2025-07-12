@@ -1,32 +1,38 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { type Ref, ref } from 'vue'
+import router from '@/router';
+import authApi from '@/api/auth';
 
 export const useAuthStore = defineStore('auth', () => {
-  const isLoggedIn = ref(false)
-  const user = ref(null)
+  //状态
+  const token : Ref<string | null>= ref(localStorage.getItem('access_token') || null);
+  const user = ref(JSON.parse(localStorage.getItem('auth_user') || 'null'));
 
-  // 检查本地存储的token
-  function checkAuth() {
-    const token = localStorage.getItem('token')
-    isLoggedIn.value = !!token
-    return isLoggedIn.value
-  }
+  const login = async (credentials) => {
 
-  // 登录方法
-   function login(credentials: { username: string; password: string }) {
-    // 调用API登录...
-    // 登录成功后:
-    isLoggedIn.value = true
-    localStorage.setItem('token', 'your-auth-token')
-  }
+    // 登录
+    const response = await authApi.login();
 
-  // 登出方法
-  function logout() {
-    isLoggedIn.value = false
-    localStorage.removeItem('token')
-  }
+    // 保存token和用户信息
+    token.value = response.token;
+    user.value = response.user;
 
-  return { isLoggedIn, user, checkAuth, login, logout }
-})
+    // 保存到localStorage
+    localStorage.setItem('auth_token', response.token);
+    localStorage.setItem('auth_user', JSON.stringify(response.user));
 
-export default useAuthStore;
+    // 跳转到首页
+    router.push('/');
+
+    try {}
+    catch (error) {
+      console.log(error)
+    }
+   }
+
+   return{
+    token,
+    user,
+    login
+   }
+});

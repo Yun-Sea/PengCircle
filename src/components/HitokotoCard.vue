@@ -2,7 +2,7 @@
 import { ChatLineRound } from '@element-plus/icons-vue'
 import { ref, onMounted } from 'vue'
 import { getHitokoto } from '@/api'
-import type { HitokotoResponse } from '@/api'
+import type { HitokotoResponse } from '@/types/inedx.ts'
 
 // 使用 ref 来存储异步数据
 const data = ref<HitokotoResponse | null>(null)
